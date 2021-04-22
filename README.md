@@ -1,5 +1,6 @@
 # bankid_cz
-BankId for Czech republic (OAuth - authorization_code)
+BankId for Czech republic
+Only OAuth authorization code method is available at this moment.
 
 Basic configuration:
 ```
