@@ -1,4 +1,4 @@
-import {ClientCredentials, AuthorizationCode, ModuleOptions, AccessToken} from 'simple-oauth2';
+import {AuthorizationCode, ModuleOptions, AccessToken} from 'simple-oauth2';
 
 export const bankIdSandboxURI: string = 'https://oidc.sandbox.bankid.cz';
 export const bankIdProductionURI: string = 'https://oidc.sandbox.bankid.cz';

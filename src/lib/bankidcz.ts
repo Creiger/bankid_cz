@@ -1,7 +1,5 @@
-import {IncomingMessage} from 'http';
-import {AccessToken} from 'simple-oauth2';
-import {bankIdAccessToken, bankIdProductionURI, bankIdSandboxURI, OAuth, OAuthOptions} from './oauth';
 import * as Wreck from '@hapi/wreck';
+import {bankIdAccessToken, bankIdProductionURI, bankIdSandboxURI, OAuthOptions, OAuth} from './ouath';
 
 export interface bankIdCzOptions {
   OAuth: OAuthOptions,
