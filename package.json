@@ -1,8 +1,8 @@
 {
   "name": "bankid_cz",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "BankId for Czech republic (OAuth - authorization_code)",
-  "main": "index.js",
+  "main": "dist",
   "scripts": {
     "start": "concurrently \"npm run build:watch\" \"npm run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1",
