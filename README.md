@@ -1,9 +1,7 @@
 # bankid_cz
 BankId for Czech republic (OAuth - authorization_code)
-`
-import {bankIdCz} from './index';
-import {grantTypes, responseTypes} from './index';
 
+```
 const bankid = new bankIdCz({
   OAuth: {
     clientId: <client_id>,
@@ -35,4 +33,4 @@ const bankid = new bankIdCz({
 
 const authUri = bankid.authorizationURI;
 console.log(authUri);
-`
+```
