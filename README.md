@@ -1,8 +1,10 @@
 # bankid_cz
 BankId for Czech republic (OAuth - authorization_code)
 
+Basic configuration:
 ```
 const bankid = new bankIdCz({
+  isProduction: true,
   OAuth: {
     clientId: <client_id>,
     clientSecret: <client_secret>,
@@ -30,7 +32,4 @@ const bankid = new bankIdCz({
     ]
   }
 });
-
-const authUri = bankid.authorizationURI;
-console.log(authUri);
 ```
