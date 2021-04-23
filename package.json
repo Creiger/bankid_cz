@@ -1,6 +1,6 @@
 {
   "name": "bankid_cz",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "BankId for Czech republic (OAuth - authorization_code)",
   "main": "dist",
   "scripts": {

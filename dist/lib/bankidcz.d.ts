@@ -9,12 +9,12 @@ export declare class bankIdCz {
     private accessToken?;
     private httpOptions;
     constructor(options: bankIdCzOptions);
-    get authorizationURI(): string | undefined;
-    getBankAuthorizationURI(bankId: string): string;
+    getAuthorizationURI(state?: string): string;
+    getBankAuthorizationURI(bankId: string, state?: string): string;
     private initOAuth;
     exchangeCode(code: string): Promise<void>;
     loadProfile(accessToken?: string): Promise<any>;
     loadUserinfo(accessToken?: string): Promise<any>;
-    loadBanks(): Promise<any>;
+    loadBanks(state?: string): Promise<any>;
     private requestEndpoint;
 }

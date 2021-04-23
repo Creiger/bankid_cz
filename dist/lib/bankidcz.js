@@ -15,12 +15,12 @@ class bankIdCz {
             rejectUnauthorized: true
         };
     }
-    get authorizationURI() {
+    getAuthorizationURI(state) {
         var _a;
-        return ((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getAuthorizationURI()) || undefined;
+        return `${((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getAuthorizationURI()) || ''}&state=${encodeURIComponent(state || '')}`;
     }
-    getBankAuthorizationURI(bankId) {
-        return `${this.authorizationURI}&bank_id=${bankId}`;
+    getBankAuthorizationURI(bankId, state) {
+        return `${this.getAuthorizationURI(state)}&bank_id=${bankId}`;
     }
     initOAuth() {
         this.OAuth = new ouath_1.OAuth(this.options.OAuth);
@@ -42,16 +42,16 @@ class bankIdCz {
         }
         return await this.requestEndpoint('/userinfo');
     }
-    async loadBanks() {
+    async loadBanks(state) {
         var _a;
         const banks = ((_a = (await this.requestEndpoint('/api/v1/banks'))) === null || _a === void 0 ? void 0 : _a.items) || [];
         for (const bank of banks) {
-            bank.authorizationURI = this.getBankAuthorizationURI(bank.id);
+            bank.authorizationURI = this.getBankAuthorizationURI(bank.id, state);
         }
         return banks;
     }
     async requestEndpoint(path) {
-        if (this.httpOptions.headers.Authorization) {
+        if (path === '/api/v1/banks' || this.httpOptions.headers.Authorization) {
             const { res, payload } = await Wreck.get(path, this.httpOptions);
             return JSON.parse(payload.toString());
         }

@@ -24,12 +24,12 @@ export class bankIdCz {
     };
   }
 
-  get authorizationURI(): string | undefined {
-    return this.OAuth?.getAuthorizationURI() || undefined;
+  getAuthorizationURI(state?: string): string {
+    return `${this.OAuth?.getAuthorizationURI() || ''}&state=${encodeURIComponent(state || '')}`;
   }
 
-  getBankAuthorizationURI(bankId: string): string {
-    return `${this.authorizationURI}&bank_id=${bankId}`;
+  getBankAuthorizationURI(bankId: string, state?: string): string {
+    return `${this.getAuthorizationURI(state)}&bank_id=${bankId}`;
   }
 
   private initOAuth(): void {
@@ -55,16 +55,16 @@ export class bankIdCz {
     return await this.requestEndpoint('/userinfo');
   }
 
-  async loadBanks(): Promise<any> {
+  async loadBanks(state?: string): Promise<any> {
     const banks = (await this.requestEndpoint('/api/v1/banks'))?.items || [];
     for (const bank of banks) {
-      bank.authorizationURI = this.getBankAuthorizationURI(bank.id);
+      bank.authorizationURI = this.getBankAuthorizationURI(bank.id, state);
     }
     return banks;
   }
 
   private async requestEndpoint(path: string): Promise<any> {
-    if (this.httpOptions.headers.Authorization) {
+    if (path === '/api/v1/banks' || this.httpOptions.headers.Authorization) {
       const {res, payload} = await Wreck.get(path, this.httpOptions);
       return JSON.parse((<Buffer>payload).toString());
     } else {
