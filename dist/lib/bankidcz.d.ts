@@ -10,9 +10,11 @@ export declare class bankIdCz {
     private httpOptions;
     constructor(options: bankIdCzOptions);
     get authorizationURI(): string | undefined;
+    getBankAuthorizationURI(bankId: string): string;
     private initOAuth;
-    authorizeCode(code: string): Promise<void>;
-    loadProfile(accessToken?: string): Promise<JSON>;
-    loadUserinfo(accessToken?: string): Promise<JSON>;
+    exchangeCode(code: string): Promise<void>;
+    loadProfile(accessToken?: string): Promise<any>;
+    loadUserinfo(accessToken?: string): Promise<any>;
+    loadBanks(): Promise<any>;
     private requestEndpoint;
 }

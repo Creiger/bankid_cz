@@ -19,10 +19,13 @@ class bankIdCz {
         var _a;
         return ((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getAuthorizationURI()) || undefined;
     }
+    getBankAuthorizationURI(bankId) {
+        return `${this.authorizationURI}&bank_id=${bankId}`;
+    }
     initOAuth() {
         this.OAuth = new ouath_1.OAuth(this.options.OAuth);
     }
-    async authorizeCode(code) {
+    async exchangeCode(code) {
         var _a, _b;
         this.accessToken = await ((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getToken(code));
         this.httpOptions.headers.Authorization = 'Bearer ' + ((_b = this.accessToken) === null || _b === void 0 ? void 0 : _b.token.access_token);
@@ -38,6 +41,14 @@ class bankIdCz {
             this.httpOptions.headers.Authorization = 'Bearer ' + accessToken;
         }
         return await this.requestEndpoint('/userinfo');
+    }
+    async loadBanks() {
+        var _a;
+        const banks = ((_a = (await this.requestEndpoint('/api/v1/banks'))) === null || _a === void 0 ? void 0 : _a.items) || [];
+        for (const bank of banks) {
+            bank.authorizationURI = this.getBankAuthorizationURI(bank.id);
+        }
+        return banks;
     }
     async requestEndpoint(path) {
         if (this.httpOptions.headers.Authorization) {

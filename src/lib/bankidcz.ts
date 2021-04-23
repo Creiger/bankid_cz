@@ -28,30 +28,42 @@ export class bankIdCz {
     return this.OAuth?.getAuthorizationURI() || undefined;
   }
 
+  getBankAuthorizationURI(bankId: string): string {
+    return `${this.authorizationURI}&bank_id=${bankId}`;
+  }
+
   private initOAuth(): void {
     this.OAuth = new OAuth(this.options.OAuth);
   }
 
-  async authorizeCode(code: string): Promise<void> {
+  async exchangeCode(code: string): Promise<void> {
     this.accessToken = await this.OAuth?.getToken(code);
     this.httpOptions.headers.Authorization = 'Bearer ' + this.accessToken?.token.access_token;
   }
 
-  async loadProfile(accessToken?: string): Promise<JSON> {
+  async loadProfile(accessToken?: string): Promise<any> {
     if (accessToken) {
       this.httpOptions.headers.Authorization = 'Bearer ' + accessToken;
     }
     return await this.requestEndpoint('/profile');
   }
 
-  async loadUserinfo(accessToken?: string): Promise<JSON> {
+  async loadUserinfo(accessToken?: string): Promise<any> {
     if (accessToken) {
       this.httpOptions.headers.Authorization = 'Bearer ' + accessToken;
     }
     return await this.requestEndpoint('/userinfo');
   }
 
-  private async requestEndpoint(path: string): Promise<JSON> {
+  async loadBanks(): Promise<any> {
+    const banks = (await this.requestEndpoint('/api/v1/banks'))?.items || [];
+    for (const bank of banks) {
+      bank.authorizationURI = this.getBankAuthorizationURI(bank.id);
+    }
+    return banks;
+  }
+
+  private async requestEndpoint(path: string): Promise<any> {
     if (this.httpOptions.headers.Authorization) {
       const {res, payload} = await Wreck.get(path, this.httpOptions);
       return JSON.parse((<Buffer>payload).toString());
