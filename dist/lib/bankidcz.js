@@ -50,4 +50,3 @@ class bankIdCz {
     }
 }
 exports.bankIdCz = bankIdCz;
-//# sourceMappingURL=bankidcz.js.map
