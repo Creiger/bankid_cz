@@ -1,6 +1,6 @@
 {
   "name": "bankid_cz",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "BankId for Czech republic (OAuth - authorization_code)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,6 @@
   "devDependencies": {
     "@types/hapi__wreck": "^17.0.1",
     "@types/node": "^14.11.2",
-    "@types/simple-oauth2": "^4.1.0",
     "concurrently": "^6.0.2",
     "gts": "^3.1.0",
     "ts-node-dev": "^1.1.6",
@@ -38,6 +37,7 @@
   },
   "dependencies": {
     "@hapi/wreck": "^17.1.0",
+    "@types/simple-oauth2": "^4.1.0",
     "simple-oauth2": "^4.2.0"
   }
 }
