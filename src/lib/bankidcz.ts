@@ -25,7 +25,7 @@ export class bankIdCz {
   }
 
   getAuthorizationURI(state?: string): string {
-    return `${this.OAuth?.getAuthorizationURI() || ''}&state=${encodeURIComponent(state || '')}`;
+    return `${this.OAuth?.getAuthorizationURI() || ''}&state=${encodeURIComponent(encodeURIComponent(state || ''))}`;
   }
 
   getBankAuthorizationURI(bankId: string, state?: string): string {
