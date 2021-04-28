@@ -17,7 +17,7 @@ class bankIdCz {
     }
     getAuthorizationURI(state) {
         var _a;
-        return `${((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getAuthorizationURI()) || ''}&state=${encodeURIComponent(state || '')}`;
+        return `${((_a = this.OAuth) === null || _a === void 0 ? void 0 : _a.getAuthorizationURI()) || ''}&state=${encodeURIComponent(encodeURIComponent(state || ''))}`;
     }
     getBankAuthorizationURI(bankId, state) {
         return `${this.getAuthorizationURI(state)}&bank_id=${bankId}`;
