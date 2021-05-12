@@ -3,7 +3,7 @@ BankId for Czech republic<br><br>
 Only OAuth authorization code method is available at this moment.
 
 ###### Basic initialization
-```
+```typescript
 import {bankIdCz, grantTypes, responseTypes} from 'bankid_cz'
 
 const bankid = new bankIdCz({
@@ -38,20 +38,20 @@ const bankid = new bankIdCz({
 ```
 ###### 1. Retrieving authorizationURI and banks
 AuthorizationURI is automatically added to banks list.
-```
+```typescript
 await bankid.getAuthorizationURI(state?: string);
 await bankid.loadBanks(state?: string);
 ```
 ###### 2. Exchanging authorization code for token
 After redirection to redirectURI, the code is returned as query param.
-```
+```typescript
 await bankid.exchangeCode(code: string);
 ```
 After this, accessToken is stored in memory and used in future requests.
 
 ###### 3. Authorized requests profile and userInfo
 Access token is optional. If used, it will be used instead of the stored one by exchangeCode method.
-```
+```typescript
 await bankid.loadProfile(accessToken?: string);
 await bankid.loadUSerinfo(accessToken?: string);
 ```
