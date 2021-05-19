@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OAuth = exports.responseTypes = exports.grantTypes = exports.tokenEndpointAuthMethod = exports.bankIdRequiredScope = exports.bankIdProductionURI = exports.bankIdSandboxURI = void 0;
 const simple_oauth2_1 = require("simple-oauth2");
 exports.bankIdSandboxURI = 'https://oidc.sandbox.bankid.cz';
-exports.bankIdProductionURI = 'https://oidc.sandbox.bankid.cz';
+exports.bankIdProductionURI = 'https://oidc.bankid.cz';
 exports.bankIdRequiredScope = ['openid'];
 var tokenEndpointAuthMethod;
 (function (tokenEndpointAuthMethod) {
