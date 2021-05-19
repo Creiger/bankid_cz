@@ -64,7 +64,7 @@ export class bankIdCz {
   }
 
   private async requestEndpoint(path: string): Promise<any> {
-    if (path === '/api/v1/banks' || this.httpOptions.headers.Authorization) {
+    if (path.startsWith('/api/v1/banks') || this.httpOptions.headers.Authorization) {
       const {res, payload} = await Wreck.get(path, this.httpOptions);
       return JSON.parse((<Buffer>payload).toString());
     } else {
