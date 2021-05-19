@@ -56,7 +56,7 @@ export class bankIdCz {
   }
 
   async loadBanks(state?: string): Promise<any> {
-    const banks = (await this.requestEndpoint('/api/v1/banks?clientId=' + this.options.OAuth.clientId))?.items || [];
+    const banks = (await this.requestEndpoint('/api/v1/banks?client_id=' + this.options.OAuth.clientId))?.items || [];
     for (const bank of banks) {
       bank.authorizationURI = this.getBankAuthorizationURI(bank.id, state);
     }
