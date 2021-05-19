@@ -33,7 +33,7 @@ export class bankIdCz {
   }
 
   private initOAuth(): void {
-    this.OAuth = new OAuth(this.options.OAuth);
+    this.OAuth = new OAuth(this.options.OAuth, this.options.isProduction);
   }
 
   async exchangeCode(code: string): Promise<void> {
