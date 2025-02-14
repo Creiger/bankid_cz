@@ -10,9 +10,9 @@
     "lint": "gts lint",
     "clean": "gts clean",
     "fix": "gts fix",
-    "prepare": "npm.cmd run compile",
-    "pretest": "npm.cmd run compile",
-    "posttest": "npm.cmd run lint",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint",
     "dev": "tsnd --no-notify --respawn src/main.ts",
     "compile": "npm run clean && tsc",
     "build:watch": "tsc -w -p tsconfig.json"
