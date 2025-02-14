@@ -1,4 +1,5 @@
 import {AuthorizationCode, ModuleOptions, AccessToken} from 'simple-oauth2';
+import { randomBytes } from 'crypto';
 
 export const bankIdSandboxURI: string = 'https://oidc.sandbox.bankid.cz';
 export const bankIdProductionURI: string = 'https://oidc.bankid.cz';
@@ -70,11 +71,23 @@ export class OAuth {
     }
   }
 
+  generateNonce(): string {
+    return randomBytes(16).toString('base64');
+  }
+
+  generateState(): string {
+    return randomBytes(16).toString('base64');
+  }
+
   getAuthorizationURI(): string | null {
     if (this.options.grantTypes?.includes(grantTypes.authorization_code)) {
+      const nonce = this.generateNonce();
+      const state = this.generateState();
       return this.client.authorizeURL({
         redirect_uri: this.options.redirectURI,
-        scope: this.options.scope
+        scope: this.options.scope,
+        nonce,
+        state
       });
     }
     return null;
