@@ -1,2 +1,2 @@
-export {bankIdCz} from './lib/bankidcz'
+export {BankIdCz} from './lib/bankidcz'
 export {grantTypes, responseTypes} from './lib/ouath'

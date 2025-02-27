@@ -1,5 +1,4 @@
 import {AuthorizationCode, ModuleOptions, AccessToken} from 'simple-oauth2';
-import { randomBytes } from 'crypto';
 
 export const bankIdSandboxURI: string = 'https://oidc.sandbox.bankid.cz';
 export const bankIdProductionURI: string = 'https://oidc.bankid.cz';
@@ -33,7 +32,7 @@ export interface OAuthOptions {
   scope?: string[]
 }
 
-export interface bankIdAccessToken extends AccessToken {
+export interface BankIdAccessToken extends AccessToken {
   token: {
     access_token: string,
     token_type: string,
@@ -71,27 +70,23 @@ export class OAuth {
     }
   }
 
-  generateNonce(): string {
-    return randomBytes(16).toString('base64');
-  }
-
   getAuthorizationURI(): string | null {
     if (this.options.grantTypes?.includes(grantTypes.authorization_code)) {
-      const nonce = this.generateNonce();
       return this.client.authorizeURL({
         redirect_uri: this.options.redirectURI,
         scope: this.options.scope,
-        nonce
       });
     }
     return null;
   }
 
-  async getToken(code: string): Promise<bankIdAccessToken> {
+  async getToken(code: string, nonce: string, state: string): Promise<BankIdAccessToken> {
     const tokenParams = {
       code,
       redirect_uri: this.options.redirectURI,
-      scope: this.options.scope
+      scope: this.options.scope,
+      nonce,
+      state
     };
     const accessToken = await this.client.getToken(tokenParams);
     return accessToken;

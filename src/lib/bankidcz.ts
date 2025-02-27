@@ -1,18 +1,18 @@
 import * as Wreck from '@hapi/wreck';
-import {bankIdAccessToken, bankIdProductionURI, bankIdSandboxURI, OAuthOptions, OAuth} from './ouath';
+import {BankIdAccessToken, bankIdProductionURI, bankIdSandboxURI, OAuthOptions, OAuth} from './ouath';
 
-export interface bankIdCzOptions {
+export interface BankIdCzOptions {
   OAuth: OAuthOptions,
   isProduction?: boolean
 }
 
-export class bankIdCz {
-  options: bankIdCzOptions;
+export class BankIdCz {
+  options: BankIdCzOptions;
   private OAuth?: OAuth;
-  private accessToken?: bankIdAccessToken;
+  private accessToken?: BankIdAccessToken;
   private httpOptions!: any;
 
-  constructor(options: bankIdCzOptions) {
+  constructor(options: BankIdCzOptions) {
     this.options = options;
     this.initOAuth();
     this.httpOptions = {
@@ -24,20 +24,20 @@ export class bankIdCz {
     };
   }
 
-  getAuthorizationURI(state?: string): string {
-    return `${this.OAuth?.getAuthorizationURI() || ''}&state=${encodeURIComponent(encodeURIComponent(state || ''))}`;
+  getAuthorizationURI(nonce: string, state: string): string {
+    return `${this.OAuth?.getAuthorizationURI() || ''}&nonce=${nonce}&state=${state}`;
   }
 
-  getBankAuthorizationURI(bankId: string, state?: string): string {
-    return `${this.getAuthorizationURI(state)}&bank_id=${bankId}`;
+  getBankAuthorizationURI(bankId: string, nonce: string, state: string): string {
+    return `${this.getAuthorizationURI(nonce, state)}&bank_id=${bankId}`;
   }
 
   private initOAuth(): void {
     this.OAuth = new OAuth(this.options.OAuth, this.options.isProduction);
   }
 
-  async exchangeCode(code: string): Promise<void> {
-    this.accessToken = await this.OAuth?.getToken(code);
+  async exchangeCode(code: string, nonce: string, state: string): Promise<void> {
+    this.accessToken = await this.OAuth?.getToken(code, nonce, state);
     this.httpOptions.headers.Authorization = 'Bearer ' + this.accessToken?.token.access_token;
   }
 
@@ -55,10 +55,10 @@ export class bankIdCz {
     return await this.requestEndpoint('/userinfo');
   }
 
-  async loadBanks(state?: string): Promise<any> {
+  async loadBanks(nonce: string, state: string): Promise<any> {
     const banks = (await this.requestEndpoint('/api/v1/banks?client_id=' + this.options.OAuth.clientId))?.items || [];
     for (const bank of banks) {
-      bank.authorizationURI = this.getBankAuthorizationURI(bank.id, state);
+      bank.authorizationURI = this.getBankAuthorizationURI(bank.id, nonce, state);
     }
     return banks;
   }
