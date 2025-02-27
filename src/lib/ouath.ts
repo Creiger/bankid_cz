@@ -75,19 +75,13 @@ export class OAuth {
     return randomBytes(16).toString('base64');
   }
 
-  generateState(): string {
-    return randomBytes(16).toString('base64');
-  }
-
   getAuthorizationURI(): string | null {
     if (this.options.grantTypes?.includes(grantTypes.authorization_code)) {
       const nonce = this.generateNonce();
-      const state = this.generateState();
       return this.client.authorizeURL({
         redirect_uri: this.options.redirectURI,
         scope: this.options.scope,
-        nonce,
-        state
+        nonce
       });
     }
     return null;
